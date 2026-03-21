@@ -1,4 +1,4 @@
 #!/command/execlineb -P
 with-contenv
 s6-notifyoncheck
-node /home/frappe/frappe-bench/apps/frappe/socketio.js
+s6-setuidgid frappe node /home/frappe/frappe-bench/apps/frappe/socketio.js

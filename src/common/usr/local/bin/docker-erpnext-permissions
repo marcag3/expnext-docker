@@ -46,17 +46,19 @@ echo "Setting file permissions..."
 mkdir -p /home/frappe/frappe-bench/sites
 mkdir -p /home/frappe/frappe-bench/logs
 mkdir -p /home/frappe/frappe-bench/sites/frontend
+mkdir -p /home/frappe/frappe-bench/config
 
 # Core ERPNext directories
-# Fix ownership recursively - this handles both the parent directory and mounted volumes
+# Recursive chown fixes files created as root by legacy runs (uploads, assets, logs).
+# Default PUID/PGID is 1000:1000 (frappe user in the container).
 chown -R ${PUID}:${PGID} /home/frappe/frappe-bench/sites 2>/dev/null || true
 chown -R ${PUID}:${PGID} /home/frappe/frappe-bench/logs 2>/dev/null || true
-chown -R ${PUID}:${PGID} /home/frappe/frappe-bench/sites/frontend 2>/dev/null || true
+chown -R ${PUID}:${PGID} /home/frappe/frappe-bench/config 2>/dev/null || true
 
 # Ensure the directories are writable
 chmod -R 755 /home/frappe/frappe-bench/sites 2>/dev/null || true
 chmod -R 755 /home/frappe/frappe-bench/logs 2>/dev/null || true
-chmod -R 755 /home/frappe/frappe-bench/sites/frontend 2>/dev/null || true
+chmod -R 755 /home/frappe/frappe-bench/config 2>/dev/null || true
 
 # Nginx directories and files
 chown -R ${PUID}:${PGID} /var/log/nginx /var/cache/nginx /var/lib/nginx /etc/nginx/conf.d 2>/dev/null || true

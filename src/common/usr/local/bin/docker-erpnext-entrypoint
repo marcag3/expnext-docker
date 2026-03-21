@@ -49,8 +49,8 @@ if [ "$(id -u)" = "0" ]; then
         exec runuser -u frappe -w /home/frappe/frappe-bench -- "$@"
     fi
     
-    # Execute the main command as root (S6 /init must run as PID 1)
-    # S6 overlay will handle user switching for individual services
+    # Execute the main command as root (S6 /init must run as PID 1).
+    # Web services drop to the frappe account via s6-setuidgid / nginx user directive.
     exec "$@"
 fi
 
