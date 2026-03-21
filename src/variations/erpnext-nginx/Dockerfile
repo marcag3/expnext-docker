@@ -1,11 +1,11 @@
-ARG FRAPPE_BRANCH=version-15
+ARG FRAPPE_BRANCH=version-16
 ARG PYTHON_VERSION=3.11.6
 ARG DEBIAN_BASE=bookworm
 
 # Use pre-built frappe/build image for the builder stage
 FROM frappe/build:${FRAPPE_BRANCH} AS builder
 
-ARG FRAPPE_BRANCH=version-15
+ARG FRAPPE_BRANCH=version-16
 ARG FRAPPE_PATH=https://github.com/frappe/frappe
 ARG APPS_JSON_BASE64
 

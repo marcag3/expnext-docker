@@ -10,7 +10,7 @@ variable "DEBIAN_BASE" {
 }
 
 variable "FRAPPE_BRANCH" {
-  default = "version-15"
+  default = "version-16"
 }
 
 variable "FRAPPE_PATH" {

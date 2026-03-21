@@ -177,9 +177,9 @@ The following apps are included in the base Docker image (defined in `apps.json`
 
 | App | Repository | Branch |
 |-----|------------|--------|
-| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | `version-15` |
-| **Payments** | [frappe/payments](https://github.com/frappe/payments) | `version-15` |
-| **HRMS** | [frappe/hrms](https://github.com/frappe/hrms) | `version-15` |
+| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | `version-16` |
+| **Payments** | [frappe/payments](https://github.com/frappe/payments) | `version-16` |
+| **HRMS** | [frappe/hrms](https://github.com/frappe/hrms) | `version-16` |
 | **Insights** | [frappe/insights](https://github.com/frappe/insights) | `main` |
 | **Builder** | [frappe/builder](https://github.com/frappe/builder) | `master` |
 | **Print Designer** | [frappe/print_designer](https://github.com/frappe/print_designer) | `develop` |
