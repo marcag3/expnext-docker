@@ -11,7 +11,7 @@ services:
       PGID: "${PGID:-1000}"
       AUTORUN_ENABLED: "true"
       # Hybrid app installation: supports both build-time and runtime apps
-      # INSTALL_APPS: comma-separated list of apps to install (e.g., "hrms,payments,insights")
+      # INSTALL_APPS: comma-separated list of apps to install (e.g., "payments,insights,print_designer")
       #   - Apps in apps.json are installed from build-time (fast, reproducible)
       #   - Apps not in apps.json can be downloaded at runtime if ENABLE_RUNTIME_APPS=true
       INSTALL_APPS: "${INSTALL_APPS:-}"

@@ -64,7 +64,7 @@ PGID=1000
 
 # App Installation (optional)
 # Leave INSTALL_APPS unset to install all apps from apps.json (default)
-# Or specify: INSTALL_APPS=hrms,payments,insights
+# Or specify: INSTALL_APPS=payments,insights,print_designer
 # ENABLE_RUNTIME_APPS=false
 ```
 
@@ -179,9 +179,7 @@ The following apps are included in the base Docker image (defined in `apps.json`
 |-----|------------|--------|
 | **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | `version-16` |
 | **Payments** | [frappe/payments](https://github.com/frappe/payments) | `version-16` |
-| **HRMS** | [frappe/hrms](https://github.com/frappe/hrms) | `version-16` |
 | **Insights** | [frappe/insights](https://github.com/frappe/insights) | `main` |
-| **Builder** | [frappe/builder](https://github.com/frappe/builder) | `master` |
 | **Print Designer** | [frappe/print_designer](https://github.com/frappe/print_designer) | `develop` |
 
 These apps are available for installation without requiring runtime downloads.
@@ -192,9 +190,7 @@ These apps are available for installation without requiring runtime downloads.
 
 **If `INSTALL_APPS` is not set**: All apps from `apps.json` (except `frappe` and `erpnext`) are automatically installed. This means by default, you'll get:
 - Payments
-- HRMS
 - Insights
-- Builder
 - Print Designer
 
 **If `INSTALL_APPS` is set**: Only the specified apps are installed.
@@ -207,7 +203,7 @@ Add these environment variables to your `docker-compose.yml`:
 environment:
   # Comma-separated list of apps to install (optional)
   # If not set, all apps from apps.json are installed by default
-  INSTALL_APPS: "hrms,payments,insights"
+  INSTALL_APPS: "payments,insights,print_designer"
   
   # Enable runtime app downloads (optional, defaults to false)
   ENABLE_RUNTIME_APPS: "true"
@@ -217,7 +213,7 @@ Or set them in your `.env` file:
 
 ```bash
 # Leave INSTALL_APPS unset to install all apps from apps.json
-# Or specify specific apps: INSTALL_APPS=hrms,payments,insights
+# Or specify specific apps: INSTALL_APPS=payments,insights,print_designer
 ENABLE_RUNTIME_APPS=false
 ```
 
@@ -233,7 +229,7 @@ environment:
   # ENABLE_RUNTIME_APPS not set (defaults to false)
 ```
 
-This will install: Payments, HRMS, Insights, Builder, and Print Designer.
+This will install: Payments, Insights, and Print Designer.
 
 **Pros**: Zero configuration, all apps available, fast, reproducible, works offline
 
@@ -243,7 +239,7 @@ Only install selected apps from `apps.json`:
 
 ```yaml
 environment:
-  INSTALL_APPS: "hrms,payments"  # Only install these specific apps
+  INSTALL_APPS: "payments,insights"  # Only install these specific apps
   # ENABLE_RUNTIME_APPS not set (defaults to false)
 ```
 
@@ -255,7 +251,7 @@ Apps not in `apps.json` will be downloaded from GitHub:
 
 ```yaml
 environment:
-  INSTALL_APPS: "hrms,payments,new_app"  # new_app not in apps.json
+  INSTALL_APPS: "payments,insights,new_app"  # new_app not in apps.json
   ENABLE_RUNTIME_APPS: "true"  # Allows downloading missing apps
 ```
 
@@ -268,11 +264,11 @@ Common apps in `apps.json`, optional apps at runtime:
 
 ```yaml
 environment:
-  INSTALL_APPS: "hrms,payments,optional_app"
+  INSTALL_APPS: "payments,insights,optional_app"
   ENABLE_RUNTIME_APPS: "true"
 ```
 
-- `hrms` and `payments` install from build-time (fast)
+- `payments` and `insights` install from build-time (fast)
 - `optional_app` downloads at runtime (flexible)
 
 ### Best Practices
