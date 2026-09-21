@@ -1,6 +1,7 @@
 ARG FRAPPE_BRANCH=version-15
 ARG PYTHON_VERSION=3.11.6
 ARG DEBIAN_BASE=bookworm
+ARG WKHTMLTOPDF_VERSION=0.12.6.1-3
 
 # Use pre-built frappe/build image for the builder stage
 FROM frappe/build:${FRAPPE_BRANCH} AS builder
@@ -42,6 +43,9 @@ RUN export APP_INSTALL_ARGS="" && \
 # Use pre-built frappe/base image for the runtime
 FROM frappe/base:${FRAPPE_BRANCH} AS base
 
+ARG DEBIAN_BASE=bookworm
+ARG WKHTMLTOPDF_VERSION=0.12.6.1-3
+
 # Copy common scripts
 COPY --chmod=755 src/common/usr/local/bin/ /usr/local/bin/
 
@@ -74,8 +78,12 @@ RUN apt-get update \
     # Install wkhtmltopdf
     && if [ "$(uname -m)" = "aarch64" ]; then export ARCH=arm64; fi \
     && if [ "$(uname -m)" = "x86_64" ]; then export ARCH=amd64; fi \
-    && downloaded_file=wkhtmltox_0.12.6.1-3.bookworm_${ARCH}.deb \
-    && curl -sLO https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/${downloaded_file} \
+    && downloaded_file=wkhtmltox_${WKHTMLTOPDF_VERSION}.${DEBIAN_BASE}_${ARCH}.deb \
+    && curl -fsSL --retry 5 --retry-delay 5 --retry-all-errors \
+        -o ${downloaded_file} \
+        "https://github.com/wkhtmltopdf/packaging/releases/download/${WKHTMLTOPDF_VERSION}/${downloaded_file}" \
+    && test -s ${downloaded_file} \
+    && file ${downloaded_file} | grep -q 'Debian binary package' \
     && apt-get install -y ./${downloaded_file} \
     && rm ${downloaded_file} \
     # Clean up
