@@ -1,10 +1,12 @@
 # Environment Variables
 .env
 
-# mounted volume
-sites
-logs
-db-data
+# mounted volumes / local runtime data
+sites/
+logs/
+db-data*/
+*.sql
+*.duckdb
 development/*
 !development/README.md
 !development/installer.py
