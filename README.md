@@ -64,7 +64,7 @@ PGID=1000
 
 # App Installation (optional)
 # Leave INSTALL_APPS unset to install all apps from apps.json (default)
-# Or specify: INSTALL_APPS=insights,print_designer
+# Or specify: INSTALL_APPS=print_designer
 # ENABLE_RUNTIME_APPS=false
 ```
 
@@ -178,34 +178,48 @@ The following apps are included in the base Docker image (defined in `apps.json`
 | App | Repository | Branch |
 |-----|------------|--------|
 | **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | `version-15` |
-| **Insights** | [frappe/insights](https://github.com/frappe/insights) | `main` |
 | **Print Designer** | [frappe/print_designer](https://github.com/frappe/print_designer) | `develop` |
 
 These apps are available for installation without requiring runtime downloads.
 
 > **Note**: ERPNext is automatically installed when creating a new site and is excluded from the default app installation.
 
-#### Payments app removed
+#### Removed apps (Payments, Insights)
 
-The [Payments](https://github.com/frappe/payments) app (online payment gateways for Web Forms) is **not** included in `apps.json`. This deployment does not use that integration. ERPNext core accounting features such as **Payment Entry** and **Mode of Payment** are unaffected—they are part of ERPNext, not the Payments app.
+These apps are **not** included in `apps.json` for new builds:
 
-If an existing site still has Payments installed (for example, from an older image), remove it **before** upgrading the Docker image:
+| App | Why removed |
+|-----|-------------|
+| [Payments](https://github.com/frappe/payments) | Online payment gateways for Web Forms — not used. ERPNext **Payment Entry** / **Mode of Payment** are core ERPNext and unaffected. |
+| [Insights](https://github.com/frappe/insights) | BI/analytics app — not used for production reporting (custom Query Reports and dashboards are used instead). |
+
+If an existing site still has one of these apps installed (for example, from an older image), uninstall it **before** deploying a new image:
 
 ```bash
+# Stop workers first
 docker compose stop queue scheduler
+
+# Uninstall (run only the apps you still have installed)
 docker compose exec -u frappe web bench --site frontend uninstall-app payments --yes
+docker compose exec -u frappe web bench --site frontend uninstall-app insights --yes
+
+# Production (docker-compose.server.yml)
+docker compose -f docker-compose.server.yml stop queue scheduler
+docker compose -f docker-compose.server.yml exec -u frappe web bench --site frontend uninstall-app insights --yes
+
+# Restart workers after uninstall
+docker compose up -d
 ```
 
-If you are still running an older image that bundles Payments, set `INSTALL_APPS` explicitly so the entrypoint does not reinstall it on container restart:
+If you are still running an older image that bundles removed apps, set `INSTALL_APPS` explicitly so the entrypoint does not reinstall them on container restart:
 
 ```yaml
-INSTALL_APPS: "insights,print_designer"
+INSTALL_APPS: "print_designer"
 ```
 
 ### Default Behavior
 
 **If `INSTALL_APPS` is not set**: All apps from `apps.json` (except `frappe` and `erpnext`) are automatically installed. This means by default, you'll get:
-- Insights
 - Print Designer
 
 **If `INSTALL_APPS` is set**: Only the specified apps are installed.
@@ -218,7 +232,7 @@ Add these environment variables to your `docker-compose.yml`:
 environment:
   # Comma-separated list of apps to install (optional)
   # If not set, all apps from apps.json are installed by default
-  INSTALL_APPS: "insights,print_designer"
+  INSTALL_APPS: "print_designer"
   
   # Enable runtime app downloads (optional, defaults to false)
   ENABLE_RUNTIME_APPS: "true"
@@ -228,7 +242,7 @@ Or set them in your `.env` file:
 
 ```bash
 # Leave INSTALL_APPS unset to install all apps from apps.json
-# Or specify specific apps: INSTALL_APPS=insights,print_designer
+# Or specify specific apps: INSTALL_APPS=print_designer
 ENABLE_RUNTIME_APPS=false
 ```
 
@@ -244,7 +258,7 @@ environment:
   # ENABLE_RUNTIME_APPS not set (defaults to false)
 ```
 
-This will install: Insights and Print Designer.
+This will install: Print Designer.
 
 **Pros**: Zero configuration, all apps available, fast, reproducible, works offline
 
@@ -254,7 +268,7 @@ Only install selected apps from `apps.json`:
 
 ```yaml
 environment:
-  INSTALL_APPS: "insights"  # Only install these specific apps
+  INSTALL_APPS: "print_designer"  # Only install these specific apps
   # ENABLE_RUNTIME_APPS not set (defaults to false)
 ```
 
@@ -266,7 +280,7 @@ Apps not in `apps.json` will be downloaded from GitHub:
 
 ```yaml
 environment:
-  INSTALL_APPS: "insights,new_app"  # new_app not in apps.json
+  INSTALL_APPS: "print_designer,new_app"  # new_app not in apps.json
   ENABLE_RUNTIME_APPS: "true"  # Allows downloading missing apps
 ```
 
@@ -279,11 +293,11 @@ Common apps in `apps.json`, optional apps at runtime:
 
 ```yaml
 environment:
-  INSTALL_APPS: "insights,optional_app"
+  INSTALL_APPS: "print_designer,optional_app"
   ENABLE_RUNTIME_APPS: "true"
 ```
 
-- `insights` installs from build-time (fast)
+- `print_designer` installs from build-time (fast)
 - `optional_app` downloads at runtime (flexible)
 
 ### Best Practices
