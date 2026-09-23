@@ -179,6 +179,7 @@ The following apps are included in the base Docker image (defined in `apps.json`
 |-----|------------|--------|
 | **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | `version-16` |
 | **Print Designer** | [frappe/print_designer](https://github.com/frappe/print_designer) | `develop` |
+| **Scout Manager** | [marcag3/scout-manager](https://github.com/marcag3/scout-manager) | `main` |
 
 These apps are available for installation without requiring runtime downloads.
 
@@ -228,6 +229,7 @@ INSTALL_APPS: "print_designer"
 
 **If `INSTALL_APPS` is not set**: All apps from `apps.json` (except `frappe` and `erpnext`) are automatically installed. This means by default, you'll get:
 - Print Designer
+- Scout Manager
 
 **If `INSTALL_APPS` is set**: Only the specified apps are installed.
 

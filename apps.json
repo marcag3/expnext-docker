@@ -6,5 +6,9 @@
   {
     "url": "https://github.com/frappe/print_designer",
     "branch": "develop"
+  },
+  {
+    "url": "https://github.com/marcag3/scout-manager",
+    "branch": "main"
   }
 ]
