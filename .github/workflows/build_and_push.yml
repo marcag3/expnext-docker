@@ -47,6 +47,9 @@ jobs:
         APPS_JSON=$(cat apps.json)
         echo "apps_json_base64=$(echo $APPS_JSON | base64 -w 0)" >> "$GITHUB_OUTPUT"
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v4
+
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v7
       with:
@@ -57,4 +60,11 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         build-args: |
           APPS_JSON_BASE64=${{ steps.apps_json.outputs.apps_json_base64 }}
+        cache-from: |
+          type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}-buildcache
+          type=gha,scope=${{ github.ref_name }}
+        cache-to: |
+          type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}-buildcache,mode=max,compression=zstd
+          type=gha,mode=max,scope=${{ github.ref_name }}
 
