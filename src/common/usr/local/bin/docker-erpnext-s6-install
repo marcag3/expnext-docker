@@ -4,7 +4,7 @@
 
 set -e
 
-S6_VERSION=v3.2.1.0
+S6_VERSION=v3.2.3.2
 S6_DIR=${S6_DIR:-/opt/s6/}
 S6_SRC_URL=${S6_SRC_URL:-"https://github.com/just-containers/s6-overlay/releases/download"}
 
