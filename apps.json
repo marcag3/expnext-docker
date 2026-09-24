@@ -1,7 +1,7 @@
 [
   {
-    "url": "https://github.com/frappe/erpnext",
-    "branch": "version-16"
+    "url": "https://github.com/marcag3/erpnext",
+    "branch": "feat-bank-rec-accounting-dimensions"
   },
   {
     "url": "https://github.com/frappe/print_designer",

@@ -177,7 +177,7 @@ The following apps are included in the base Docker image (defined in `apps.json`
 
 | App | Repository | Branch |
 |-----|------------|--------|
-| **ERPNext** | [frappe/erpnext](https://github.com/frappe/erpnext) | `version-16` |
+| **ERPNext** | [marcag3/erpnext](https://github.com/marcag3/erpnext) | `feat-bank-rec-accounting-dimensions` |
 | **Print Designer** | [frappe/print_designer](https://github.com/frappe/print_designer) | `develop` |
 | **Scout Manager** | [marcag3/scout-manager](https://github.com/marcag3/scout-manager) | `main` |
 
